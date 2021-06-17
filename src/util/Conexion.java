@@ -35,9 +35,9 @@ public class Conexion <T> {
 	}
 	
 	public List<T> list(){
-		//TypedQuery<T> consulta= em.createNamedQuery(c.getSimpleName().toLowerCase()+".findAll", c);
-		//List<T> lista = (List<T>) consulta.getResultList();
-		return em.createQuery("from " + c.getSimpleName().toLowerCase(), c).getResultList();
+		TypedQuery<T> consulta= em.createNamedQuery(c.getSimpleName()+".findAll", c);
+		List<T> lista = (List<T>) consulta.getResultList();
+		return lista;
 	}
 	
 	public void insert(T obj){
