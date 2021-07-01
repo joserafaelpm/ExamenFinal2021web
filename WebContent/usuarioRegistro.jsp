@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+   <!--action="../user/registrar"  --> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +28,7 @@
 <body>
 	<div class="limiter">
 			<div class="wrap-register ">
-				<form class="login100-form validate-form" action="../user/registrar" method="POST">
+				<form class="login100-form validate-form"  action="UsuarioServlet?action=registrar"  method="POST">
 					<span class="login100-form-title p-t-20 p-b-45">
 						Sistema de Información para la Gestión de Reportes JasperReports
 					</span>

@@ -17,12 +17,10 @@ import model.*;
 import util.EnviarEmail;
 
 
-
-
 /**
  * Servlet implementation class UserController
  */
-@WebServlet("/user/*")
+@WebServlet("/UsuarioServlet/*")
 public class UsuarioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UsuarioDAO udao=new UsuarioDAO();
@@ -38,80 +36,15 @@ public class UsuarioServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String partes[]=request.getRequestURI().split("/");
-		String action=partes[3];
-			switch(action){
-				case "validar":
-					String username=partes[4];
-					//Implemente en el r2 el r3 de una no me di cuenta.
-					validarUsuario(request,response,username);
-				break;
-				
-			}
-		}
-	
-	protected void iniciarSesionUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String user=request.getParameter("user");
-		String password=request.getParameter("pass");
-		Usuario usuario=valida(user,password);
-		
-		if(usuario!=null) {
-			HttpSession misession= request.getSession(true);
-			misession.setAttribute("usuario", usuario);
-			Short estado=new Short("0");
-			if(usuario.getState()==estado) {
-				misession.setAttribute("usuario", null);
-				response.sendRedirect("../dashboard/userStatusOff.jsp");
-			}else {
-				response.sendRedirect("../dashboard/index.jsp");
-			}
-		}else response.sendRedirect("../index.jsp");
-	}
-	//Implemente en el r2 el r3 de una no me di cuenta.
-	//es esta parte
-	protected void validarUsuario(HttpServletRequest request, HttpServletResponse response,String username) throws ServletException, IOException {
-		Usuario user=this.TraePorUsuario(username);
-		if(user!=null) {
-			Short state=new Short("1");
-			user.setState(state);
-			this.udao.update(user);
-			response.sendRedirect("../../registro/validate.jsp");
-		}
 	}
 	
-	private Usuario valida(String user,String password) {
-		UsuarioDAO udao=new UsuarioDAO();
-		for(Usuario u:udao.list()) {
-			if(u.getUsuario().equals(user) && u.getPass().equals(password)) {
-				return u;
-			}
-		}
-		return null;
-	}
 	
-	private Usuario TraePorUsuario(String user) {
-		
-		for(Usuario u:this.udao.list()) {
-			if(u.getUsuario().equals(user)) {
-				return u;
-			}
-		}
-		return null;
-	}
-	
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String partes[]=request.getRequestURI().split("/");
-		String action=partes[3];
+		String action = request.getParameter("action");
 		try {
 			switch(action) {
 				case "registrar":agregarUsuario(request,response);
-				break;
-				case "login":iniciarSesionUser(request,response);
 				break;
 			}
 		}catch(Exception e) {
@@ -120,13 +53,11 @@ public class UsuarioServlet extends HttpServlet {
 		
 	}
 	
-	
 	private void agregarUsuario(HttpServletRequest request,HttpServletResponse response ) 
 			throws ServletException, SQLException, IOException{
 		String user=request.getParameter("user");
 		String pass=request.getParameter("pass");
 		String email=request.getParameter("email");
-		
 		Usuario u=new Usuario();
 		u.setUsuario(user);
 		u.setEmail(email);
@@ -144,7 +75,7 @@ public class UsuarioServlet extends HttpServlet {
 		em.sendEmail(u.getEmail(), "Creacion de usuario SISREPORT", mensaje);
 		
 		
-		response.sendRedirect("../registro/index2.jsp");
+		request.getRequestDispatcher("usuarioRegistro.jsp").forward(request, response);;
 		
 		
 	}
