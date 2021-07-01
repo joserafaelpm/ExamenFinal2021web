@@ -1,96 +1,84 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-	 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-	crossorigin="anonymous">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Formulario de Registro de Usuario</title>
-</head>
-<!doctype html>
 <html lang="en">
 <head>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Registro de usuario</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Bootstrap CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-	crossorigin="anonymous">
-
-<title>Registro de usuarios</title>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+<!--===============================================================================================-->
 </head>
 <body>
-	<jsp:useBean class="dao.RolDAO" id="rolDAO"></jsp:useBean>
-	<jsp:useBean class="dao.UsuarioDAO" id="usuarioDAO"></jsp:useBean>
-	<div class="container">
+	<div class="limiter">
+			<div class="wrap-register ">
+				<form class="login100-form validate-form" action="../user/registrar" method="POST">
+					<span class="login100-form-title p-t-20 p-b-45">
+						Sistema de Información para la Gestión de Reportes JasperReports
+					</span>
 
-		<c:if test="${usuario == null}">
-			<form action="UsuarioServlet?action=registrar" method="POST">
-		</c:if>
-		<div class="card m-5">
-			<div class="card-header bg-red">Registro de usuarios</div>
-			<div class="card-body">
-				<form>
-					<div class="row">
-						<div class="col-sm-6">
-							<div class="input-group mb-3">
-								<span class="input-group-text">Usuario:</span> <input
-									type="text" name="usuario" value="${usuario.usuario}"
-									class="form-control"
-									aria-label="Amount (to the nearest dollar)">
-							</div>
-							<div class="input-group mb-3">
-								<span class="input-group-text">Password:</span> <input
-									type="password" name="pass" value="${usuario.pass}"
-									class="form-control"
-									aria-label="Amount (to the nearest dollar)">
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="input-group mb-3">
-								<span class="input-group-text">Email:</span> <input type="email"
-									name="email" value="${usuario.email}" class="form-control"
-									aria-label="Amount (to the nearest dollar)">
-							</div>
+                    <div class="sizefull">
+                        <div class="row">
+                            <div class="col-sm-6">
+                        
+                                <div class="wrap-input100 validate-input m-b-10" data-validate = "Nombre de usuario requerido">
+                                    <input class="input100" type="text" name="user" placeholder="Usuario">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+    
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="wrap-input100 validate-input m-b-10" data-validate = "Contraseña es requerida">
+                                    <input class="input100" type="password" name="pass" placeholder="Contraseña">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Correo electronico es requerido">
+                                <input class="input100" type="email" name="email" placeholder="Correo electronico">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                            </div>
+                            <div class="container-login100-form-btn p-t-10">
+                                <button class="login100-form-btn">
+                                    Crear usuario
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
-							<fieldset class="form-group">
-								<label>genero</label> <select class="form-control"
-									id="exampleFormControlSelect1" name="genero">
-									<option selected value="${heroe.generoBean.getId()} ">
-										<c:out value="${heroe.generoBean.getDescripcion()} " />
-									</option>
-									<c:forEach items="${generoDAO.list()}" var="genero">
-										<option value="${genero.id} ">
-											<c:out value="${genero.descripcion} " />
-										</option>
-									</c:forEach>
-								</select>
-							</fieldset>
-
-
-							<div class="input-group mb-3">
-								<span class="input-group-text">State:</span> <input
-									type="number" name="state" value="${usuario.state}"
-									class="form-control"
-									aria-label="Amount (to the nearest dollar)">
-							</div>
-
-						</div>
-					</div>
-					<button class="btn btn-success w-100">Registrar usuario</button>
 				</form>
 			</div>
-		</div>
 	</div>
+<!--===============================================================================================-->	
+	<script src="../assets/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../assets/vendor/bootstrap/js/popper.js"></script>
+	<script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../assets/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
 </body>
 </html>

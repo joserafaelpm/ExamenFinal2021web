@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ConnectiontokenDAO;
+import dao.TypedbDAO;
+import dao.UsuarioDAO;
 import model.Connectiontoken;
+import model.Typedb;
+import model.Usuario;
 
 /**
  * Servlet implementation class ConnectiontokenServlet
@@ -17,6 +21,8 @@ import model.Connectiontoken;
 public class ConnectiontokenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ConnectiontokenDAO connecDAO;
+	private TypedbDAO tDAO;
+	private UsuarioDAO uDAO;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -24,6 +30,8 @@ public class ConnectiontokenServlet extends HttpServlet {
 	public ConnectiontokenServlet() {
 		super();
 		connecDAO = new ConnectiontokenDAO();
+		tDAO = new TypedbDAO();
+		uDAO = new UsuarioDAO();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -36,9 +44,6 @@ public class ConnectiontokenServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
 		switch (action) {
-		case "eliminar":
-			this.eliminar(request, response);
-			break;
 		case "mostrar":
 			this.showForm(request, response);
 			break;
@@ -74,7 +79,8 @@ public class ConnectiontokenServlet extends HttpServlet {
 		}
 	}
 
-	private void actualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void registrar(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String db = request.getParameter("db");
 		String host = request.getParameter("host");
@@ -83,7 +89,11 @@ public class ConnectiontokenServlet extends HttpServlet {
 		short state = Short.parseShort(request.getParameter("state"));
 		String token = request.getParameter("token");
 		String userdb = request.getParameter("userdb");
-		Connectiontoken connec =  new Connectiontoken();
+		String type = request.getParameter("type");
+		Integer usuario = Integer.parseInt(request.getParameter("usuario"));
+		Connectiontoken connec = new Connectiontoken();
+		Typedb ty = tDAO.find(type);
+		Usuario u = uDAO.find(usuario);
 		connec.setDb(db);
 		connec.setHost(host);
 		connec.setPass(pass);
@@ -91,49 +101,61 @@ public class ConnectiontokenServlet extends HttpServlet {
 		connec.setState(state);
 		connec.setToken(token);
 		connec.setUserdb(userdb);
-		connecDAO.update(connec);
-		request.getRequestDispatcher("token.jsp").forward(request, response);
-	}
-
-	private void registrar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String db = request.getParameter("db");
-		String host = request.getParameter("host");
-		String pass = request.getParameter("pass");
-		short port = Short.parseShort(request.getParameter("port"));
-		short state = Short.parseShort(request.getParameter("state"));
-		String token = request.getParameter("token");
-		String userdb = request.getParameter("userdb");
-		Connectiontoken connec =  new Connectiontoken();
-		connec.setDb(db);
-		connec.setHost(host);
-		connec.setPass(pass);
-		connec.setPort(port);
-		connec.setState(state);
-		connec.setToken(token);
-		connec.setUserdb(userdb);
+		connec.setTypedb(ty);
+		connec.setUsuario(u);
 		connecDAO.insert(connec);
 		request.getRequestDispatcher("tokenRegistro.jsp").forward(request, response);
 
 	}
 
-	private void buscar(HttpServletRequest request, HttpServletResponse response) {
+	private void actualizar(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		Connectiontoken connec =  new Connectiontoken();
+		String db = request.getParameter("db");
+		String host = request.getParameter("host");
+		String pass = request.getParameter("pass");
+		short port = Short.parseShort(request.getParameter("port"));
+		short state = Short.parseShort(request.getParameter("state"));
+		String token = request.getParameter("token");
+		String userdb = request.getParameter("userdb");
+		String type = request.getParameter("type");
+		Integer usuario = Integer.parseInt(request.getParameter("usuario"));
+		Connectiontoken connec = new Connectiontoken();
+		Typedb ty = tDAO.find(type);
+		Usuario u = uDAO.find(usuario);
+		connec.setId(id);
+		connec.setDb(db);
+		connec.setHost(host);
+		connec.setPass(pass);
+		connec.setPort(port);
+		connec.setState(state);
+		connec.setToken(token);
+		connec.setUserdb(userdb);
+		connec.setTypedb(ty);
+		connec.setUsuario(u);
+		connecDAO.update(connec);
+		request.getRequestDispatcher("tokenList.jsp").forward(request, response);
 	}
 
-	private void showForm(HttpServletRequest request, HttpServletResponse response) {
+	private void buscar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		Connectiontoken connec =  new Connectiontoken();
+		Connectiontoken connec = new Connectiontoken();
+		connec.setId(id);
+		Connectiontoken aux = connecDAO.find(connec.getId());
+		request.getSession().setAttribute("connectiontoken", aux);
+		request.getRequestDispatcher("tokenRegistro.jsp").forward(request, response);
 	}
 
-	private void eliminar(HttpServletRequest request, HttpServletResponse response) {
+	private void showForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		Connectiontoken connec =  new Connectiontoken();
-		Connectiontoken connecaux =  new Connectiontoken();
+		Connectiontoken connec = new Connectiontoken();
+		connec.setId(id);
+		Connectiontoken aux = connecDAO.find(connec.getId());
+		request.getSession().setAttribute("connectiontoken", aux);
+		request.getRequestDispatcher("tokenRegistro.jsp").forward(request, response);
 	}
 
 }

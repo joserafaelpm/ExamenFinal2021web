@@ -9,21 +9,21 @@
 <title>Index</title>
 </head>
 <body>
-<h1><b>======</b></h1>
   <div class="form-group row">
     <div class="col-sm-10">
-    <h1>Usuario</h1>
-    <a href="${pageContext.request.contextPath}/usuarioSerch.jsp" class="btn btn-primary">Buscar Usuario</a>
+    <h1> <b>Usuario</b>  </h1>
      <a href="${pageContext.request.contextPath}/usuarioRegistro.jsp" class="btn btn-primary">Registrar Usuario</a>
      <a href="${pageContext.request.contextPath}/usuarioList.jsp" class="btn btn-primary">Lista Usuario</a>
-     <h1>Token</h1>
-     <a href="${pageContext.request.contextPath}/tokenSerch.jsp" class="btn btn-primary">Buscar Token</a>
+     <h1><b>Token</b></h1>
      <a href="${pageContext.request.contextPath}/tokenRegistro.jsp" class="btn btn-primary">Registrar Token</a>
      <a href="${pageContext.request.contextPath}/tokenList.jsp" class="btn btn-primary">Lista Token</a>
-     <h1>Reporte</h1>
-     <a href="${pageContext.request.contextPath}/reporteSerch.jsp" class="btn btn-primary">Buscar Reporte</a>
+     <h1><b>Reporte</b></h1>
      <a href="${pageContext.request.contextPath}/reporteRegistro.jsp" class="btn btn-primary">Registrar Reporte</a>
      <a href="${pageContext.request.contextPath}/reporteList.jsp" class="btn btn-primary">Lista Reporte</a>
+     <a href="${pageContext.request.contextPath}/reporteBuscar.jsp" class="btn btn-primary">Buscar Reporte</a>
+     <h1><b>Tipo de Base de datos</b></h1>
+     <a href="${pageContext.request.contextPath}/tipoRegistro.jsp" class="btn btn-primary">Registrar Base de datos</a>
+     <a href="${pageContext.request.contextPath}/tipoList.jsp" class="btn btn-primary">Lista de tipos de base de datos</a>
     </div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,13 +43,10 @@
 					<td><c:out value="${token.db}" /></td>
 					<td><c:out value="${token.token}" /></td>
 					<td><c:out value="${token.port}" /></td>
-					<td><c:out value="${token.user}" /></td>
+					<td><c:out value="${token.usuario.getUsuario()}" /></td>
 					<td><c:out value="${token.state}" /></td>
-					<td><c:out value="${token.type}" /></td>
-					<td><a
-						href="ConecctiontokenServlet?action=eliminar&id=${token.id}">Eliminar</a></td>
-					<td><a
-						href="ConecctiontokenServlet?action=mostrar&id=${token.id}">Editar</a></td>
+					<td><c:out value="${token.typedb.getDescription()}" /></td>
+					<td><a href="ConnectiontokenServlet?action=mostrar&id=${token.id}">Editar</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
