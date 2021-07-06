@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.ConnectiontokenDAO;
 import dao.TypedbDAO;
@@ -17,7 +18,7 @@ import model.Usuario;
 /**
  * Servlet implementation class ConnectiontokenServlet
  */
-@WebServlet("/ConnectiontokenServlet/*")
+@WebServlet("/token/*")
 public class ConnectiontokenServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ConnectiontokenDAO connecDAO;
@@ -42,7 +43,9 @@ public class ConnectiontokenServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
+		//String action = request.getParameter("action");
+		String partes[]=request.getRequestURI().split("/");
+		String action=partes[3];
 		switch (action) {
 		case "mostrar":
 			this.showForm(request, response);
@@ -62,8 +65,9 @@ public class ConnectiontokenServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
-		System.out.println(action);
+		//String action = request.getParameter("action");
+		String partes[]=request.getRequestURI().split("/");
+		String action=partes[3];
 		switch (action) {
 		case "buscar":
 			this.buscar(request, response);
@@ -82,29 +86,24 @@ public class ConnectiontokenServlet extends HttpServlet {
 	private void registrar(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String db = request.getParameter("db");
-		String host = request.getParameter("host");
-		String pass = request.getParameter("pass");
-		short port = Short.parseShort(request.getParameter("port"));
-		short state = Short.parseShort(request.getParameter("state"));
-		String token = request.getParameter("token");
-		String userdb = request.getParameter("userdb");
-		String type = request.getParameter("type");
-		Integer usuario = Integer.parseInt(request.getParameter("usuario"));
-		Connectiontoken connec = new Connectiontoken();
-		Typedb ty = tDAO.find(type);
-		Usuario u = uDAO.find(usuario);
-		connec.setDb(db);
-		connec.setHost(host);
-		connec.setPass(pass);
-		connec.setPort(port);
-		connec.setState(state);
-		connec.setToken(token);
-		connec.setUserdb(userdb);
-		connec.setTypedb(ty);
-		connec.setUsuario(u);
-		connecDAO.insert(connec);
-		request.getRequestDispatcher("tokenRegistro.jsp").forward(request, response);
+		String host=request.getParameter("host");
+		String userdb=request.getParameter("userdb");
+		int port=Integer.parseInt(request.getParameter("port"));
+		Typedb tipo=new Typedb();
+		tipo.setId(request.getParameter("typedb"));
+		String pass=request.getParameter("pass");
+		Connectiontoken ct=new Connectiontoken();
+		ct.setHost(host);
+		ct.setUserdb(userdb);
+		ct.setPort(new Short(port+""));
+		ct.setTypedb(tipo);
+		ct.setPass(pass);
+		ct.setToken("KsyHDycnKso");
+		HttpSession misession= request.getSession(true);
+		Usuario user=(Usuario)misession.getAttribute("usuario");
+		ct.setUsuario(user);
+		connecDAO.insert(ct);
+		response.sendRedirect("../dashboard/tokens.jsp");
 
 	}
 
@@ -112,30 +111,24 @@ public class ConnectiontokenServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Integer id = Integer.parseInt(request.getParameter("id"));
-		String db = request.getParameter("db");
-		String host = request.getParameter("host");
-		String pass = request.getParameter("pass");
-		short port = Short.parseShort(request.getParameter("port"));
-		short state = Short.parseShort(request.getParameter("state"));
-		String token = request.getParameter("token");
-		String userdb = request.getParameter("userdb");
-		String type = request.getParameter("type");
-		Integer usuario = Integer.parseInt(request.getParameter("usuario"));
-		Connectiontoken connec = new Connectiontoken();
-		Typedb ty = tDAO.find(type);
-		Usuario u = uDAO.find(usuario);
-		connec.setId(id);
-		connec.setDb(db);
-		connec.setHost(host);
-		connec.setPass(pass);
-		connec.setPort(port);
-		connec.setState(state);
-		connec.setToken(token);
-		connec.setUserdb(userdb);
-		connec.setTypedb(ty);
-		connec.setUsuario(u);
-		connecDAO.update(connec);
-		request.getRequestDispatcher("tokenList.jsp").forward(request, response);
+		String host=request.getParameter("host");
+		String userdb=request.getParameter("userdb");
+		int port=Integer.parseInt(request.getParameter("port"));
+		Typedb tipo=new Typedb();
+		tipo.setId(request.getParameter("typedb"));
+		String pass=request.getParameter("pass");	
+		Connectiontoken ct=new Connectiontoken();
+		ct.setHost(host);
+		ct.setUserdb(userdb);
+		ct.setPort(new Short(port+""));
+		ct.setTypedb(tipo);
+		ct.setPass(pass);
+		ct.setToken("KsyHDycnKso");
+		HttpSession misession= request.getSession(true);
+		Usuario user=(Usuario)misession.getAttribute("usuario");
+		ct.setUsuario(user);
+		connecDAO.update(ct);
+		response.sendRedirect("../dashboard/tokens.jsp");
 	}
 
 	private void buscar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

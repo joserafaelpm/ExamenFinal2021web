@@ -18,7 +18,7 @@ import model.Reporte;
 /**
  * Servlet implementation class ReporteServlet
  */
-@WebServlet("/ReporteServlet/*")
+@WebServlet("/reporte/*")
 public class ReporteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        private ReporteDAO reDAO;
@@ -38,7 +38,9 @@ public class ReporteServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
+		//String action = request.getParameter("action");
+		String partes[]=request.getRequestURI().split("/");
+		String action=partes[3];
 		switch (action) {
 		case "mostrar":
 			this.showForm(request, response);
@@ -55,7 +57,9 @@ public class ReporteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
+		//String action = request.getParameter("action");
+		String partes[]=request.getRequestURI().split("/");
+		String action=partes[3];
 		System.out.println(action);
 		switch (action) {
 		case "buscar":
@@ -91,7 +95,7 @@ public class ReporteServlet extends HttpServlet {
 		r.setDatecreate(datecreate);
 		r.setConnectiontoken(con);
 		reDAO.insert(r);
-		request.getRequestDispatcher("reporteRegistro.jsp").forward(request, response);;
+		response.sendRedirect("../dashboard/reporteRegistro.jsp");
 	}
 
 	private void actualizar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -115,7 +119,7 @@ public class ReporteServlet extends HttpServlet {
 		r.setDatecreate(datecreate);
 		r.setConnectiontoken(con);
 		reDAO.update(r);
-		request.getRequestDispatcher("reporteList.jsp").forward(request, response);;
+		response.sendRedirect("../dashboard/reporteRegistro.jsp");
 
 	}
 
@@ -125,7 +129,7 @@ public class ReporteServlet extends HttpServlet {
 		r.setId(id);
 		Reporte aux = reDAO.find(r.getId());
 		request.getSession().setAttribute("reporte", aux);
-		request.getRequestDispatcher("reporteRegistro.jsp").forward(request, response);
+		response.sendRedirect("../dashboard/reporteRegistro.jsp");
 		
 	}
 	
@@ -135,7 +139,7 @@ public class ReporteServlet extends HttpServlet {
 		r.setId(id);
 		Reporte aux = reDAO.find(r.getId());
 		request.getSession().setAttribute("reporte", aux);
-		request.getRequestDispatcher("reporteRegistro.jsp").forward(request, response);
+		response.sendRedirect("../dashboard/reporteRegistro.jsp");
 		
 	}
 

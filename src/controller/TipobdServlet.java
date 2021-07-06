@@ -8,13 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.TypedbDAO;
-import model.Reporte;
 import model.Typedb;
 
 /**
  * Servlet implementation class TipobdServlet
  */
-@WebServlet("/TipobdServlet/*")
+@WebServlet("/tipo/*")
 public class TipobdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        private TypedbDAO tyDAO;
@@ -32,34 +31,20 @@ public class TipobdServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
-		switch (action) {
-		case "mostrar":
-			this.showForm(request, response);
-			break;
-		default:
-			break;
-		}
 	}
-
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
+		//String action = request.getParameter("action");
+		String partes[]=request.getRequestURI().split("/");
+		String action=partes[3];
 		System.out.println(action);
 		switch (action) {
-		case "buscar":
-			this.buscar(request, response);
-			break;
 		case "registrar":
 			this.registrar(request, response);
-			break;
-		case "actualizar":
-			this.actualizar(request, response);
 			break;
 		default:
 			break;
@@ -77,22 +62,7 @@ public class TipobdServlet extends HttpServlet {
 		t.setDescription(description);
 		t.setDriver(driver);
 		tyDAO.insert(t);
-		request.getRequestDispatcher("tipoRegistro.jsp").forward(request, response);
-	}
-	
-	private void actualizar(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void buscar(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	private void showForm(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
+		response.sendRedirect("../dashboard/tipoRegistro.jsp");
 	}
 
 }

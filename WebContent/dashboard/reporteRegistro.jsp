@@ -24,12 +24,12 @@
 	<jsp:useBean class="dao.ConnectiontokenDAO" id="cDAO"></jsp:useBean>
 	<c:if test="${reporte != null}">
 		<%--  <form action="${pageContext.request.contextPath}/ActualizarEmpleado?accion=edita&codigo=${empleado.codigo}"  method="post"> --%>
-		<form action="ReporteServlet?action=actualizar&id=${reporte.id}"
+		<form action="../reporte/actualizar&id=${reporte.id}"
 			method="POST">
 	</c:if>
 	<c:if test="${reporte == null}">
 		<%--  <form action="${pageContext.request.contextPath}/AgregarEmpleado?accion=agregar&codigo=${empleado.codigo}"  method="POST"> --%>
-		<form action="ReporteServlet?action=registrar" method="POST">
+		<form action="../reporte/registrar" method="post">
 	</c:if>
 	<div class="container">
 		<div class="card m-5">
@@ -52,23 +52,23 @@
 						<div class="col-sm-6">
 							<div class="input-group mb-3">
 								<span class="input-group-text">Fecha de creacion</span> 
-								<input name="datecreate" type="date" id="datecreate"
+								<input name="datecreate" type="date" id="datecreate" value="${reporte.datecreate}" 
 									class="form-control">
 							</div>
 							<div class="input-group mb-3">
 								<span class="input-group-text">File Archivo: </span> <input name="file"
-									type="text" class="form-control">
+									type="text" class="form-control" value="${reporte.file}">
 							</div>
 							<div class="input-group mb-3">
 								<span class="input-group-text">Nombre</span> <input type="text" name="name"
-									class="form-control">
+									class="form-control" value="${reporte.name}">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="input-group mb-3">
 								<span class="input-group-text">Estado</span> <select name="state"
 									class="form-select" aria-label="Default select example">
-									<option selected></option>
+									<option selected value="${reporte.state}"></option>
 									<option value="Creado sin validar">Creado sin validar</option>
 									<option value="conexión validada">conexión validada</option>
 									<option value="sin conexión">sin conexión</option>
@@ -76,11 +76,13 @@
 							</div>
 							<div class="input-group mb-3">
 								<span class="input-group-text">Descripcion</span> <input name="description"
-									type="text" class="form-control" id="inputEmail3">
+									type="text" class="form-control" id="inputEmail3"value="${reporte.description}">
 							</div>
 						</div>
 					</div>
 					<button type="submit" class=" btn btn-success w-100">Registrar</button>
+					<a href="reporteList.jsp" class="btn btn-success w-100">Lista</a>
+					<a href="index.jsp" class="btn btn-success w-100">Volver</a>
 				</form>
 			</div>
 		</div>
